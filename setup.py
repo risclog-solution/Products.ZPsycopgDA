@@ -14,13 +14,13 @@ long_description = (
     + '\n' +
     _read('CONTRIBUTORS.txt')
     + '\n' +
-    _read('CHANGES.txt')
+    _read('CHANGES.rst')
     + '\n'
 )
 
 setup(
     name='Products.ZPsycopgDA',
-    version='4.0.dev0',
+    version='4.0',
     license='ZPL 2.1',
     license_files=['LICENSE*'],
     author='Federico Di Gregorio',
