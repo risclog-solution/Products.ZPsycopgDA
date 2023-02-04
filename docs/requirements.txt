@@ -1,1 +1,1 @@
-pkginfo
+.[docs]
