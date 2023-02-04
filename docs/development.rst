@@ -1,13 +1,18 @@
-=============
- Development
-=============
+Development
+===========
+
+Bug tracker
+-----------
+For bug reports, suggestions or questions please use the 
+GitHub issue tracker at
+https://github.com/dataflake/Products.ZPsycopgDA/issues.
 
 
 Getting the source code
-=======================
-The source code is maintained on GitHub. To check out the trunk:
+-----------------------
+The source code is maintained on GitHub. To check out the main branch:
 
-.. code-block:: sh
+.. code-block:: console
 
   $ git clone https://github.com/dataflake/Products.ZPsycopgDA.git
 
@@ -15,64 +20,41 @@ You can also browse the code online at
 https://github.com/dataflake/Products.ZPsycopgDA
 
 
-Bug tracker
-===========
-For bug reports, suggestions or questions please use the 
-GitHub issue tracker at
-https://github.com/dataflake/Products.ZPsycopgDA/issues.
+Preparing the development sandbox
+---------------------------------
+The following steps only need to be done once to install all the tools and
+scripts needed for building, packaging and testing. First, create a
+:term:`Virtual environment`. The example here uses Python 3.11, but any Python
+version supported by this package will work. Then install all the required
+tools:
+
+.. code-block:: console
+
+    $ cd Products.ZPsycopgDA
+    $ python3.11 -m venv .
+    $ bin/pip install -U pip wheel
+    $ bin/pip install -U setuptools zc.buildout tox twine
 
 
-Running the tests using  :mod:`zc.buildout`
-===========================================
-:mod:`Products.ZPsycopgDA` ships with its own :file:`buildout.cfg` file
-for setting up a development buildout:
+Running the tests
+-----------------
+You can use ``tox`` to run the unit and integration tests in this package. The
+shipped ``tox`` configuration can run the tests for all supported platforms.
+You can read the entire long list of possible options on the
+`tox CLI interface documentation page
+<https://tox.wiki/en/latest/cli_interface.html>`_, but the following examples
+will get you started:
 
-.. code-block:: sh
+.. code-block:: console
 
-  $ cd Products.ZPsycopgDA
-  $ python3 -m venv .
-  $ bin/pip install -U pip wheel
-  $ bin/pip install setuptools "zc.buildout==3.0.0rc3" tox twine
-  $ bin/buildout
-  ...
-
-Once you have a buildout, the tests can be run as follows:
-
-.. code-block:: sh
-
-   $ bin/test 
-   Running tests at level 1
-   Running zope.testrunner.layer.UnitTests tests:
-     Set up zope.testrunner.layer.UnitTests in 0.000 seconds.
-     Running:
-   ..............................................................
-     Ran 62 tests with 0 failures and 0 errors in 0.043 seconds.
-   Tearing down left over layers:
-     Tear down zope.testrunner.layer.UnitTests in 0.000 seconds.
-
-To run tests for all supported Python versions, code coverage and a
-PEP-8 coding style checker, you can use ``tox`` after completing the
-buildout step above:
-
-.. code-block:: sh
-
-   $ bin/tox
-   GLOB sdist-make: ...
-   ...
-   ____________________________________ summary _____________________________________
-   py27: commands succeeded
-   py35: commands succeeded
-   py36: commands succeeded
-   py37: commands succeeded
-   py38: commands succeeded
-   py39: commands succeeded
-   lint: commands succeeded
-   coverage: commands succeeded
-   congratulations :)
+    $ bin/tox -l       # List all available environments
+    $ bin/tox -pall    # Run tests for all environments in parallel
+    $ bin/tox -epy311  # Run tests on Python 3.11 only
+    $ bin/tox -elint   # Run package sanity checks and lint the code
 
 
 Running the functional tests
-============================
+----------------------------
 Some tests are hard or even impossible to perform without a real running
 database backend. During a normal test run they will be skipped, and
 you will see output like this::
@@ -95,33 +77,14 @@ If everything worked you'll see test output like this::
   Total: 62 tests, 0 failures, 0 errors and 0 skipped in 0.105 seconds.
 
 
-Building the documentation using :mod:`zc.buildout`
-===================================================
-The :mod:`Products.ZPsycopgDA` buildout installs the Sphinx 
-scripts required to build the documentation, including testing 
-its code snippets:
+Building the documentation
+--------------------------
+``tox`` is also used to build the :term:`Sphinx`-based documentation. The
+input files are in the `docs` subfolder and the documentation build step will
+compile them to HTML. The output is stored in `docs/_build/html/`:
 
-.. code-block:: sh
+.. code-block:: console
 
-    $ cd docs
-    $ make html
-    ...
-    build succeeded.
+    $ bin/tox -edocs
 
-    The HTML pages are in _build/html.
-
-
-Making a release
-================
-These instructions assume that you have a development sandbox set 
-up using :mod:`zc.buildout` as the scripts used here are generated 
-by the buildout.
-
-.. code-block:: sh
-
-  $ bin/buildout -N
-  $ bin/buildout setup setup.py sdist bdist_wheel
-  $ bin/twine upload -s dist/Products.ZPsycopgDA-X.X.X*
-
-The ``bin/buildout`` step will make sure the correct package information 
-is used.
+If the documentation contains doctests they are run as well.

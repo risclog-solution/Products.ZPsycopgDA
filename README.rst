@@ -1,6 +1,3 @@
-Products.ZPsycopgDA
-===================
-
 .. image:: https://github.com/dataflake/Products.ZPsycopgDA/actions/workflows/tests.yml/badge.svg
    :target: https://github.com/dataflake/Products.ZPsycopgDA/actions/workflows/tests.yml
 
@@ -19,6 +16,10 @@ Products.ZPsycopgDA
    :target: https://pypi.org/project/Products.ZPsycopgDA/
    :alt: Stable release supported Python versions
 
+
+=====================
+ Products.ZPsycopgDA
+=====================
 
 This is a Zope database adapter for PostGreSQL based on psycopg2__ for Zope 4
 and up on all Python versions supported by Zope 4 and 5.
