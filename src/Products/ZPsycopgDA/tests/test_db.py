@@ -1,6 +1,7 @@
 ##############################################################################
 #
-# Copyright (c) 2022 Zope Foundation and Contributors.
+# Copyright (c) 2012-2023 Federico Di Gregorio and Contributors.
+# All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
 # Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
@@ -9,7 +10,7 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+#############################################################################
 """ Tests for the db module
 """
 import threading
@@ -164,8 +165,7 @@ class RealDBTests(unittest.TestCase):
             connection = conn.getconn().cursor().connection
             if (connection.string_types !=
                     {1114: ZDATETIME, 1184: ZDATETIME}):
-                failures.append(
-                    '%s fail (%s)' % (name, connection.string_types))
+                failures.append(f'{name} fail ({connection.string_types})')
 
         def test_connect(name):
             assert_casts(conn1, name)

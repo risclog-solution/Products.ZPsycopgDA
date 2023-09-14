@@ -1,6 +1,7 @@
 ##############################################################################
 #
-# Copyright (c) 2001 Zope Foundation and Contributors.
+# Copyright (c) 2012-2023 Federico Di Gregorio and Contributors.
+# All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
 # Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
@@ -21,7 +22,7 @@ COLUMNS = [{'name': 'col1', 'description': 'desc1',
             'type': 'text', 'short_type': 'text'}]
 
 
-class FakeColumns(object):
+class FakeColumns:
 
     def __init__(self, table_name):
         self.cols = {table_name: COLUMNS}

@@ -1,3 +1,17 @@
+##############################################################################
+#
+# Copyright (c) 2012-2023 Federico Di Gregorio and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+#############################################################################
+
 import os
 
 from setuptools import find_packages
@@ -14,13 +28,13 @@ long_description = (
     + '\n' +
     _read('CONTRIBUTORS.txt')
     + '\n' +
-    _read('CHANGES.txt')
+    _read('CHANGES.rst')
     + '\n'
 )
 
 setup(
     name='Products.ZPsycopgDA',
-    version='3.1',
+    version='4.1.dev0',
     license='ZPL 2.1',
     license_files=['LICENSE*'],
     author='Federico Di Gregorio',
@@ -40,16 +54,11 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Zope',
-        'Framework :: Zope :: 4',
         'Framework :: Zope :: 5',
         'License :: OSI Approved :: Zope Public License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
@@ -64,15 +73,14 @@ setup(
     namespace_packages=['Products'],
     package_dir={'': 'src'},
     zip_safe=False,
-    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
+    python_requires='>=3.7',
     install_requires=[
         'setuptools',
-        'psycopg2; python_version>="3.6"',
-        'psycopg2 < 2.9; python_version<="3.5"',
-        'Zope',
+        'psycopg2',
+        'Zope >= 5',
         'Products.ZSQLMethods',
     ],
     extras_require={
-        'docs': ['Sphinx', 'sphinx_rtd_theme'],
+        'docs': ['Sphinx', 'sphinx_rtd_theme', 'pkginfo'],
     },
 )
