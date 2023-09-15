@@ -127,6 +127,10 @@ class Connection(ConnectionBase):
 
         self._v_connected = ''
         dbf = self.factory()
+        # Support reading connection string from envvar ala "ENV:DB_CONN"
+        connection_string = s
+        if connection_string.startswith("ENV:"):
+            connection_string = os.environ[connection_string[4:]]
 
         # TODO: let the psycopg exception propagate, or not?
         self._v_database_connection = dbf(

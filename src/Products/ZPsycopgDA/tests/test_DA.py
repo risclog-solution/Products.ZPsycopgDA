@@ -13,7 +13,9 @@
 #############################################################################
 """ Tests for the DA module
 """
+import os
 import unittest
+import unittest.mock
 
 import psycopg2
 
@@ -99,6 +101,27 @@ class ConnectionTests(unittest.TestCase):
         self.assertEqual(conn.connection_string, 'dbname=bar')
         self.assertEqual(conn.tilevel, 3)
         self.assertEqual(conn.encoding, 'utf-16')
+
+    def test_connect(self):
+        """Read the connection string from environment variable if prefixed."""
+        os.environ['DB_CONN'] = 'test-env-var'
+        conn = self._makeOne('testconn', 'Test Connection', 'dbname=foo',
+                             False)
+
+        with unittest.mock.patch('Products.ZPsycopgDA.DA.DB') as dbf:
+            dbf.open = lambda x: None
+            conn.connect('dbname=foo')
+
+        # assert first argument on the first call.
+        self.assertEqual(dbf.call_args_list[0][0][0], 'dbname=foo')
+
+        with unittest.mock.patch('Products.ZPsycopgDA.DA.DB') as dbf:
+            dbf.open = lambda x: None
+            conn.connect('ENV:DB_CONN')
+
+        # assert first argument on the first call.
+        self.assertEqual(dbf.call_args_list[0][0][0], 'test-env-var')
+        del os.environ['DB_CONN']
 
     def test_get_type_casts(self):
         conn = self._makeOne('testconn', 'Test Connection', 'dbname=foo',
