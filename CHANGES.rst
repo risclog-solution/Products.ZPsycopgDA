@@ -4,6 +4,7 @@ Changelog
 4.1 (unreleased)
 ----------------
 
+- Enable the possibility to get DSN from environment variables.
 
 4.0 (2023-02-02)
 ----------------
