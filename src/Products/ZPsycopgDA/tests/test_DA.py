@@ -111,16 +111,12 @@ class ConnectionTests(unittest.TestCase):
         with unittest.mock.patch('Products.ZPsycopgDA.DA.DB') as dbf:
             dbf.open = lambda x: None
             conn.connect('dbname=foo')
+            # assert first argument on the first call:
+            self.assertEqual(dbf.call_args_list[0][0][0], 'dbname=foo')
 
-        # assert first argument on the first call.
-        self.assertEqual(dbf.call_args_list[0][0][0], 'dbname=foo')
-
-        with unittest.mock.patch('Products.ZPsycopgDA.DA.DB') as dbf:
-            dbf.open = lambda x: None
             conn.connect('ENV:DB_CONN')
-
-        # assert first argument on the first call.
-        self.assertEqual(dbf.call_args_list[0][0][0], 'test-env-var')
+            # assert first argument on the second call:
+            self.assertEqual(dbf.call_args_list[1][0][0], 'test-env-var')
         del os.environ['DB_CONN']
 
     def test_get_type_casts(self):
