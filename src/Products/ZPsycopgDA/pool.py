@@ -45,6 +45,7 @@ class AbstractConnectionPool:
         self._used = {}
         self._rused = {}  # id(conn) -> key map
         self._keys = 0
+        self._initialized = {}
 
         for i in range(self.minconn):
             self._connect()
@@ -97,6 +98,8 @@ class AbstractConnectionPool:
             self._pool.append(conn)
         else:
             conn.close()
+            if id(conn) in self._initialized:
+                del self._initialized[id(conn)]
 
         # here we check for the presence of key because it can happen that a
         # thread tries to put back a connection after a call to close
@@ -118,6 +121,9 @@ class AbstractConnectionPool:
                 conn.close()
             except Exception:
                 pass
+            finally:
+                if id(conn) in self._initialized:
+                    del self._initialized[id(conn)]
         self.closed = True
 
 
@@ -172,13 +178,13 @@ _connections_lock = threading.Lock()
 
 
 def getpool(dsn, create=True):
-    _connections_lock.acquire()
-    try:
-        if dsn not in _connections_pool and create:
-            _connections_pool[dsn] = \
-                PersistentConnectionPool(4, 200, dsn)
-    finally:
-        _connections_lock.release()
+    if create:
+        _connections_lock.acquire()
+        try:
+            if dsn not in _connections_pool:
+                _connections_pool[dsn] = PersistentConnectionPool(4, 200, dsn)
+        finally:
+            _connections_lock.release()
     return _connections_pool[dsn]
 
 
