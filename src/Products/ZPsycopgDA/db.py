@@ -61,7 +61,7 @@ class DB(TM):
     def getconn(self, init='ignored', retry=100):
         conn = pool.getconn(self.dsn)
         _pool = pool.getpool(self.dsn, create=False)
-        if not _pool._initialized[id(conn)]:
+        if id(conn) not in _pool._initialized:
             try:
                 conn.set_session(isolation_level=int(self.tilevel))
             except psycopg2.InterfaceError:
