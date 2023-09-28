@@ -61,7 +61,7 @@ class DB(TM):
     def getconn(self, init='ignored', retry=100):
         conn = pool.getconn(self.dsn)
         _pool = pool.getpool(self.dsn, create=False)
-        if not _pool._initialized[id(conn)]:
+        if id(conn) not in _pool._initialized:
             try:
                 conn.set_session(isolation_level=int(self.tilevel))
             except psycopg2.InterfaceError:
@@ -74,7 +74,7 @@ class DB(TM):
             conn.set_client_encoding(self.encoding)
             for tc in self.typecasts:
                 register_type(tc, conn)
-            _pool._initialized[id(conn)] = True
+            _pool._initialized.add(id(conn))
         return conn
 
     def putconn(self, close=False):
