@@ -1,6 +1,18 @@
 Changelog
 =========
 
+3.2 (unreleased)
+----------------
+
+- Add support for reading the connection string from an environemt variable.
+  Use ``ENV:DB_CONN`` as connection string to look up the actual connection
+  string in the environment variable ``DB_CONN``.
+
+- Ensure connection always get properly initialized.
+
+- Add support for PostgreSQL 13.
+
+
 3.1 (2023-01-16)
 ----------------
 
