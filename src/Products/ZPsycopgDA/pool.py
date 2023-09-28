@@ -51,7 +51,7 @@ class AbstractConnectionPool(object):
         self._used = {}
         self._rused = {}  # id(conn) -> key map
         self._keys = 0
-        self._initialized = {}
+        self._initialized = set()
 
         for i in range(self.minconn):
             self._connect()
@@ -104,8 +104,10 @@ class AbstractConnectionPool(object):
             self._pool.append(conn)
         else:
             conn.close()
-            if id(conn) in self._initialized:
-                del self._initialized[id(conn)]
+            try:
+                self._initialized.remove(id(conn))
+            except KeyError:
+                pass
 
         # here we check for the presence of key because it can happen that a
         # thread tries to put back a connection after a call to close
@@ -128,8 +130,10 @@ class AbstractConnectionPool(object):
             except Exception:
                 pass
             finally:
-                if id(conn) in self._initialized:
-                    del self._initialized[id(conn)]
+                try:
+                    self._initialized.remove(id(conn))
+                except KeyError:
+                    pass
         self.closed = True
 
 
