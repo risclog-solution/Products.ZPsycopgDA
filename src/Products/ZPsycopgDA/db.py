@@ -74,7 +74,7 @@ class DB(TM):
             conn.set_client_encoding(self.encoding)
             for tc in self.typecasts:
                 register_type(tc, conn)
-            _pool._initialized[id(conn)] = True
+            _pool._initialized.add(id(conn))
         return conn
 
     def putconn(self, close=False):
