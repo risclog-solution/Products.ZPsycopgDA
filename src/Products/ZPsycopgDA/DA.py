@@ -16,6 +16,7 @@
 # their work without bothering about the module dependencies.
 
 
+import os
 from operator import itemgetter
 
 from psycopg2 import DATETIME
@@ -127,10 +128,14 @@ class Connection(ConnectionBase):
 
         self._v_connected = ''
         dbf = self.factory()
+        # Support reading connection string from envvar ala "ENV:DB_CONN"
+        connection_string = s
+        if connection_string.startswith("ENV:"):
+            connection_string = os.environ[connection_string[4:]]
 
         # TODO: let the psycopg exception propagate, or not?
         self._v_database_connection = dbf(
-            self.connection_string, self.tilevel,
+            connection_string, self.tilevel,
             self.get_type_casts(), self.encoding)
         self._v_database_connection.open()
         self._v_connected = DateTime()
