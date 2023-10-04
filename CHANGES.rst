@@ -4,7 +4,7 @@ Changelog
 4.1 (unreleased)
 ----------------
 
-- Add support for reading the connection string from an environemt variable.
+- Add support for reading the connection string from an environment variable.
   Use ``ENV:DB_CONN`` as connection string to look up the actual connection
   string in the environment variable ``DB_CONN``.
 
