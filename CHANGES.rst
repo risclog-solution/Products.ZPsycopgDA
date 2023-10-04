@@ -1,12 +1,13 @@
 Changelog
 =========
 
-4.1 (unreleased)
+4.1 (2023-10-04)
 ----------------
 
 - Add support for reading the connection string from an environment variable.
   Use ``ENV:DB_CONN`` as connection string to look up the actual connection
   string in the environment variable ``DB_CONN``.
+
 
 4.0 (2023-02-02)
 ----------------
