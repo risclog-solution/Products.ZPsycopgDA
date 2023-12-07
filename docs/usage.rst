@@ -16,7 +16,8 @@ Edit the database connection attributes and apply any changes:
 * `Id` (read only): The database adapter ZODB ID.
 * `Title`: An optional title that shows up in the :term:`ZMI`.
 * `Database Connection String`: A string encapsulating how to connect
-  to the database.
+  to the database. It is possible to read the string from an environment
+  variable by prefixing the variable name with ``ENV`` e.g. ``ENV:DB_CONN``.
 * `Connect immediately`: Should the database connection be established
   immediately or when the first database query is run.
 * `Use Zope's internal DateTime`: Check this box to always convert PostgreSQL
